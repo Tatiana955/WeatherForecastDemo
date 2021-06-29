@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WeatherForecastDemo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="temperature">температура</string>
+    <string name="wind_speed">скорость ветра</string>
+    <string name="feels_like">ощущается как</string>
+    <string name="pressure">давление</string>
+    <string name="enter_name_city">Введите название города</string>
+    <string name="add">Добавить</string>
+    <string name="weather_forecast">WeatherForecast</string>
+    <string name="maps_fragment">MapsFragment</string>
+    <string name="weather_fragment">WeatherFragment</string>
+</resources>
