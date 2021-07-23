@@ -1,85 +1,80 @@
-package by.startandroid.weatherforecastdemo.data.local
+package by.startandroid.weatherforecastdemo.data.source
 
 import by.startandroid.weatherforecastdemo.data.CityName
 import by.startandroid.weatherforecastdemo.data.DataSource
 import by.startandroid.weatherforecastdemo.data.WeatherForecast
 
-class Local internal constructor(val weatherDao: WeatherDao): DataSource {
+class FakeDataSource(var cityNameList: MutableList<CityName>? = mutableListOf()): DataSource {
 
     override suspend fun getWeather(cityname: String, key: String, units: String, lang: String): WeatherForecast? {
         TODO("Not yet implemented")
     }
 
-    // CityName
-
     override suspend fun insertCityName(cityName: CityName) {
-        weatherDao.insertCityName(cityName)
+        cityNameList?.add(cityName)
     }
 
     override suspend fun getAllName(): MutableList<CityName> {
-        return weatherDao.getAllName()
+        return cityNameList!!
     }
 
     override suspend fun getCityName(name: String): CityName? {
-        return weatherDao.getCityName(name)
+        TODO("Not yet implemented")
     }
 
     override suspend fun getNameList(): MutableList<String> {
-        return weatherDao.getNameList()
+        TODO("Not yet implemented")
     }
 
     override suspend fun getName(): String? {
-        return weatherDao.getName()
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteAllCityName() {
-        weatherDao.deleteAllCityName()
+        cityNameList?.clear()
     }
 
     override suspend fun deleteOneCityName(name: CityName) {
-        weatherDao.deleteOneCityName(name)
+        cityNameList?.remove(name)
     }
 
     override suspend fun updateCityNameForWidget(name: String, isSelected: Int) {
-        weatherDao.updateCityNameForWidget(name, isSelected)
+        TODO("Not yet implemented")
     }
 
     override suspend fun selectName(): String? {
-        return weatherDao.selectName()
+        TODO("Not yet implemented")
     }
 
-
-    // WeatherForecast
-
     override suspend fun insertWeatherForecast(weatherForecast: WeatherForecast) {
-        weatherDao.insertWeatherForecast(weatherForecast)
+        TODO("Not yet implemented")
     }
 
     override suspend fun getAllWeatherForecast(): MutableList<WeatherForecast> {
-        return weatherDao.getAllWeatherForecast()
+        TODO("Not yet implemented")
     }
 
     override suspend fun getOneWeatherForecast(name: String): WeatherForecast {
-        return weatherDao.getOneWeatherForecast(name)
+        TODO("Not yet implemented")
     }
 
     override suspend fun getNameFromWeatherForecast(name: String): String? {
-        return weatherDao.getNameFromWeatherForecast(name)
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateWeatherForecast(weatherForecast: WeatherForecast) {
-        weatherDao.updateWeatherForecast(weatherForecast)
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateAllWeatherForecast(weatherForecast: MutableList<WeatherForecast>) {
-        weatherDao.updateAllWeatherForecast(weatherForecast)
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteAllWeatherForecast() {
-        weatherDao.deleteAllWeatherForecast()
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteOneWeatherForecast(name: String) {
-        weatherDao.deleteOneWeatherForecast(name)
+        TODO("Not yet implemented")
     }
 }

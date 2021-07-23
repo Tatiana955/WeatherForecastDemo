@@ -30,4 +30,9 @@
         android:label="fragment_list_city"
         tools:layout="@layout/fragment_list_city" />
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="by.startandroid.weatherforecastdemo.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+
 </navigation>

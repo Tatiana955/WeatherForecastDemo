@@ -5,5 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "city_name")
 data class CityName (
-        @PrimaryKey var name: String
+        @PrimaryKey var name: String,
+        var isSelectedWidget: Int = 0
         )

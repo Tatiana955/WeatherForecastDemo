@@ -7,6 +7,10 @@
         android:title="@string/maps_fragment" />
 
     <item
+        android:id="@+id/listCityFragment"
+        android:title="@string/listcity_fragment" />
+
+    <item
         android:id="@+id/weatherFragment"
         android:title="@string/weather_fragment" />
 

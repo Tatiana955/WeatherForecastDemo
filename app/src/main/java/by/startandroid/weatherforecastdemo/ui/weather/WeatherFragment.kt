@@ -20,10 +20,7 @@ class WeatherFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var viewModel: ViewModel
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_weather, container, false)
         viewModel = ViewModelProvider(activity as MainActivity).get(ViewModel::class.java)
         viewModel.getAllName()

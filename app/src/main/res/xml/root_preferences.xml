@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/update_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/update_title"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on" />
+
+        <ListPreference
+            app:dependency="sync"
+            app:defaultValue="reply"
+            app:entries="@array/preference_entries"
+            app:entryValues="@array/preference_values"
+            app:key="reply"
+            app:title="@string/title_preference"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/widget_header">
+
+        <ListPreference
+            app:dependency="widget"
+            app:defaultValue="reply"
+            app:key="widget"
+            app:title="@string/title_widget"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

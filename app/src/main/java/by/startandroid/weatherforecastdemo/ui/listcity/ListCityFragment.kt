@@ -24,10 +24,7 @@ class ListCityFragment : Fragment() {
     private lateinit var viewModel: ViewModel
     private val listCity = mutableListOf<CityName>()
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListCityBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(activity as MainActivity).get(ViewModel::class.java)
         return binding!!.root
@@ -53,6 +50,7 @@ class ListCityFragment : Fragment() {
 
         binding!!.buttonClear.setOnClickListener {
             viewModel.deleteAllCityName()
+            viewModel.deleteAllWeatherForecast()
             listCity.clear()
             adapter.notifyDataSetChanged()
         }
@@ -65,6 +63,7 @@ class ListCityFragment : Fragment() {
 
     fun deleteOneCityName(position: Int) {
         viewModel.deleteOneCityName(listCity[position])
+        viewModel.deleteOneWeatherForecast(listCity[position].name)
         Toast.makeText(context, "Город удалён", Toast.LENGTH_SHORT).show()
     }
 

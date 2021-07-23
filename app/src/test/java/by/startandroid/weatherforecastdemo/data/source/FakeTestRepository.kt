@@ -1,29 +1,25 @@
-package by.startandroid.weatherforecastdemo.data.remote
+package by.startandroid.weatherforecastdemo.data.source
 
+import androidx.lifecycle.MutableLiveData
 import by.startandroid.weatherforecastdemo.data.CityName
-import by.startandroid.weatherforecastdemo.data.DataSource
 import by.startandroid.weatherforecastdemo.data.WeatherForecast
+import by.startandroid.weatherforecastdemo.repository.IRepository
+import kotlinx.coroutines.runBlocking
 
-class Remote(): DataSource {
-    private val apiService = IApiService.create()
+class FakeTestRepository: IRepository {
+    var serviceData: LinkedHashMap<String, CityName> = LinkedHashMap()
+    private val observableCityName = MutableLiveData<MutableList<CityName>>()
 
-    override suspend fun getWeather(cityname: String, key: String, units: String, lang: String
-    ): WeatherForecast? {
-        return try {
-            val weatherData = apiService.getWeather(cityname, key, units, lang)
-            weatherData
-        } catch (e: Exception) {
-            val weather: WeatherForecast? = null
-            weather
-        }
+    override suspend fun getWeather(cityname: String, key: String, units: String, lang: String): WeatherForecast? {
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertCityName(cityName: CityName) {
-        TODO("Not yet implemented")
+        observableCityName.value?.add(cityName)
     }
 
     override suspend fun getAllName(): MutableList<CityName> {
-        TODO("Not yet implemented")
+        return serviceData.values.toMutableList()
     }
 
     override suspend fun getCityName(name: String): CityName? {
@@ -43,18 +39,14 @@ class Remote(): DataSource {
     }
 
     override suspend fun deleteOneCityName(name: CityName) {
-        TODO("Not yet implemented")
+        observableCityName.value?.remove(name)
     }
 
     override suspend fun updateCityNameForWidget(name: String, isSelected: Int) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun selectName(): String {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun insertWeatherForecast(weatherForecast: WeatherForecast) {
+    override suspend fun selectName(): String? {
         TODO("Not yet implemented")
     }
 
@@ -66,11 +58,7 @@ class Remote(): DataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getNameFromWeatherForecast(name: String): String? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateWeatherForecast(weatherForecast: WeatherForecast) {
+    override suspend fun deleteAllWeatherForecast() {
         TODO("Not yet implemented")
     }
 
@@ -78,11 +66,18 @@ class Remote(): DataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteAllWeatherForecast() {
+    override suspend fun deleteOneWeatherForecast(name: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteOneWeatherForecast(name: String) {
-        TODO("Not yet implemented")
+    fun addCityName(vararg cityName: CityName) {
+        for (i in cityName) {
+            serviceData[i.name] = i
+        }
+        runBlocking { refreshCityName() }
+    }
+
+    private suspend fun refreshCityName() {
+        observableCityName.value = getAllName()
     }
 }

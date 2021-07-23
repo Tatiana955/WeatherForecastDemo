@@ -1,62 +1,85 @@
 package by.startandroid.weatherforecastdemo.repository
 
 import by.startandroid.weatherforecastdemo.data.CityName
+import by.startandroid.weatherforecastdemo.data.DataSource
 import by.startandroid.weatherforecastdemo.data.WeatherForecast
-import by.startandroid.weatherforecastdemo.data.local.Local
-import by.startandroid.weatherforecastdemo.data.remote.Remote
 
-class Repository (private val remote: Remote, private val local: Local) {
+class Repository (private val remote: DataSource, private val local: DataSource): IRepository {
 
-    suspend fun getWeather(cityname: String, key: String, units: String, lang: String): WeatherForecast {
+    override suspend fun getWeather(cityname: String, key: String, units: String, lang: String): WeatherForecast {
         var weatherData = remote.getWeather(cityname, key, units, lang)
-        try {
-            if (weatherData != null) {
-                local.insertWeatherForecast(weatherData)
-            }
-        } catch (e: Exception) {
-            if (weatherData != null) {
-                local.updateWeatherForecast(weatherData)
-            }
+        val name = local.getNameFromWeatherForecast(cityname)
+
+        if (weatherData != null && name == null) {
+            local.insertWeatherForecast(weatherData)
+        } else if (weatherData != null && name != null) {
+            local.updateWeatherForecast(weatherData)
         }
+
         if (weatherData == null) {
             weatherData = local.getOneWeatherForecast(cityname)
         }
         return weatherData
     }
 
-    suspend fun insertCityName(cityName: CityName) {
+    // CityName
+
+    override suspend fun insertCityName(cityName: CityName) {
         local.insertCityName(cityName)
     }
 
-    suspend fun getAllName(): MutableList<CityName> {
+    override suspend fun getAllName(): MutableList<CityName> {
         return local.getAllName()
     }
 
-    suspend fun getCityName(name: String): MutableList<CityName>{
+    override suspend fun getCityName(name: String): CityName? {
         return local.getCityName(name)
     }
 
-    suspend fun getNameList(): MutableList<String> {
+    override suspend fun getNameList(): MutableList<String> {
         return local.getNameList()
     }
 
-    suspend fun deleteAllCityName() {
+    override suspend fun getName(): String? {
+        return local.getName()
+    }
+
+    override suspend fun deleteAllCityName() {
         local.deleteAllCityName()
     }
 
-    suspend fun deleteOneCityName(name: CityName) {
+    override suspend fun deleteOneCityName(name: CityName) {
         local.deleteOneCityName(name)
     }
 
-    suspend fun getAllWeatherForecast(): MutableList<WeatherForecast> {
+    override suspend fun updateCityNameForWidget(name: String, isSelected: Int) {
+        local.updateCityNameForWidget(name, isSelected)
+    }
+
+    override suspend fun selectName(): String? {
+        return local.selectName()
+    }
+
+
+    // WeatherForecast
+
+    override suspend fun getAllWeatherForecast(): MutableList<WeatherForecast> {
         return local.getAllWeatherForecast()
     }
 
-    suspend fun deleteAllWeatherForecast() {
+    override suspend fun getOneWeatherForecast(name: String): WeatherForecast {
+        return local.getOneWeatherForecast(name)
+    }
+
+    override suspend fun deleteAllWeatherForecast() {
         local.deleteAllWeatherForecast()
     }
 
-    suspend fun updateAllWeatherForecast(weatherForecast: MutableList<WeatherForecast>) {
+    override suspend fun updateAllWeatherForecast(weatherForecast: MutableList<WeatherForecast>) {
         local.updateAllWeatherForecast(weatherForecast)
+    }
+
+    override suspend fun deleteOneWeatherForecast(name: String) {
+        local.deleteOneWeatherForecast(name)
     }
 }

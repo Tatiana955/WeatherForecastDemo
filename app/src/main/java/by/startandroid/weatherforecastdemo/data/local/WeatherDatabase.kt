@@ -6,7 +6,7 @@ import by.startandroid.weatherforecastdemo.data.CityName
 import by.startandroid.weatherforecastdemo.data.Weather
 import by.startandroid.weatherforecastdemo.data.WeatherForecast
 
-@Database(entities = [CityName::class, WeatherForecast::class, Weather::class], exportSchema = false, version = 1)
+@Database(entities = [CityName::class, WeatherForecast::class, Weather::class], exportSchema = false, version = 2)
 abstract class WeatherDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
 }

@@ -16,11 +16,10 @@ import by.startandroid.weatherforecastdemo.viewmodel.ViewModel
 
 class AddCityFragment : Fragment() {
     private var binding: FragmentAddCityBinding? = null
-    private lateinit var navController: NavController
+    private var navController: NavController? = null
     private lateinit var viewModel: ViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddCityBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(activity as MainActivity).get(ViewModel::class.java)
         return binding!!.root
@@ -30,13 +29,16 @@ class AddCityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
-        binding!!.buttonAdd.setOnClickListener {
-            val cityName = CityName(
-                binding!!.editText.text.toString()
-            )
-            viewModel.insertCityName(cityName)
-            navController.popBackStack()
-            Toast.makeText(context, "Город добавлен", Toast.LENGTH_SHORT).show()
+        binding!!.buttonAddCity.setOnClickListener {
+            val cityName: CityName
+            if (binding!!.editText.text.isEmpty()) {
+                Toast.makeText(context, "Введите корректное название!", Toast.LENGTH_SHORT).show()
+            } else {
+                cityName = CityName(binding!!.editText.text.toString())
+                viewModel.insertCityName(cityName)
+                navController!!.popBackStack()
+                Toast.makeText(context, "Город добавлен", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

@@ -2,27 +2,29 @@ package by.startandroid.weatherforecastdemo.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
 import by.startandroid.weatherforecastdemo.R
-import by.startandroid.weatherforecastdemo.data.local.Local
-import by.startandroid.weatherforecastdemo.data.remote.Remote
 import by.startandroid.weatherforecastdemo.databinding.ActivityMainBinding
-import by.startandroid.weatherforecastdemo.repository.Repository
 import by.startandroid.weatherforecastdemo.viewmodel.ViewModel
 import by.startandroid.weatherforecastdemo.viewmodel.ViewModelFactory
-import java.util.concurrent.TimeUnit
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var viewModel: ViewModel
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,25 +38,20 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, binding.drawerLayout)
         binding.navView.setupWithNavController(navController)
 
-        val remote = Remote()
-        val local = Local(this)
-        val repository = Repository(remote, local)
-        val factory = ViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(ViewModel::class.java)
-
-        val workRequest: WorkRequest = PeriodicWorkRequestBuilder<WeatherWorker>(1, TimeUnit.HOURS).build()
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager.enqueue(workRequest)
-        workManager.getWorkInfoByIdLiveData(workRequest.id)
-                .observe(this, {
-                    Log.d("!!!state", it.state.toString())
-                    if(it?.state == WorkInfo.State.SUCCEEDED) {
-                        Toast.makeText(this, "Work completed", Toast.LENGTH_SHORT).show()
-                    }
-                })
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        MenuInflater(this).inflate(R.menu.appbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, navController) ||
+                super.onOptionsItemSelected(item)
     }
 }

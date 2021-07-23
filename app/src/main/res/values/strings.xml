@@ -8,7 +8,20 @@
     <string name="pressure">давление</string>
     <string name="enter_name_city">Введите название города</string>
     <string name="add">Добавить</string>
+    <string name="clear">Очистить</string>
+
     <string name="weather_forecast">WeatherForecast</string>
     <string name="maps_fragment">MapsFragment</string>
     <string name="weather_fragment">WeatherFragment</string>
+    <string name="listcity_fragment">ListCityFragment</string>
+    <string name="settings_fragment">SettingsFragment</string>
+
+    <!-- Preference -->
+    <string name="update_header">Обновление</string>
+    <string name="update_title">Обновление данных</string>
+    <string name="attachment_summary_on">Включено</string>
+    <string name="attachment_summary_off">Отключено</string>
+    <string name="title_preference">Частота обновления данных в часах</string>
+    <string name="widget_header">Виджет</string>
+    <string name="title_widget">Выберите город</string>
 </resources>
